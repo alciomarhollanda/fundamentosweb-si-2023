@@ -1,3 +1,21 @@
+<?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "si3a";
+
+    // Create connection
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+    // Check connection
+    if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $sql = "select * from estado;";
+    $result = mysqli_query($conn, $sql);
+
+    mysqli_close($conn);
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -48,30 +66,28 @@
     <table class="table table-hover">
         <thead>
             <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+                <th scope="col">Id</th>
+                <th scope="col">Nome estado</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr class="table-danger">
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td class="table-success">@twitter</td>
-            </tr>
+          <?php
+            if (mysqli_num_rows($result) > 0) {
+                // output data of each row
+                while($row = mysqli_fetch_assoc($result)) {
+                    echo "
+                        <tr>
+                            <th scope='row'>".$row["idEstado"]."</th>
+                            <td>".$row["nomeEstado"]."</td>
+                        </tr>
+                    ";
+                }
+            } else {
+                echo "0 results";
+            }
+
+          ?>
+            
         </tbody>
     </table>
 
